@@ -44,6 +44,8 @@ import org.wso2.carbon.connector.pojo.FileOperationResult;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
@@ -252,6 +254,26 @@ public class Utils {
             log.error("FileConnector:unzip: Error while generating OMElement from element name" + elementName, e);
         }
         return resultElement;
+    }
+
+    /**
+     * Validate a character encoding name, falling back to UTF-8 if it is not provided or not supported.
+     *
+     * @param encoding Encoding name to validate
+     * @param log      Log to report a fallback warning to
+     * @return A valid encoding name, either the provided one or the UTF-8 default
+     */
+    public static String validateEncoding(String encoding, Log log) {
+        if (StringUtils.isEmpty(encoding)) {
+            return Const.DEFAULT_ENCODING;
+        }
+        try {
+            Charset.forName(encoding);
+            return encoding;
+        } catch (UnsupportedCharsetException e) {
+            log.warn("Invalid encoding '" + encoding + "', falling back to default: " + Const.DEFAULT_ENCODING);
+            return Const.DEFAULT_ENCODING;
+        }
     }
 
     /**
