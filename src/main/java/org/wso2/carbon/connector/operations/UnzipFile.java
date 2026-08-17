@@ -52,9 +52,7 @@ public class UnzipFile extends AbstractConnector {
     private static final String SOURCE_FILE_PATH_PARAM = "sourceFilePath";
     private static final String TARGET_DIRECTORY_PARAM = "targetDirectory";
     private static final String OPERATION_NAME = "unzipFile";
-    private static final String FILE_NAME_ENCODING = "fileNameEncoding";
     private static final String INCLUDE_FILE_NAMES = "includeFileNames";
-    private static final String ZIP_FILE_CONTENT_ELE = "zipFileContent";
     private static final String ERROR_MESSAGE = "Error while performing file:unzip for file ";
 
     @Override
@@ -78,7 +76,7 @@ public class UnzipFile extends AbstractConnector {
             folderPathToExtract = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, TARGET_DIRECTORY_PARAM);
             String fileNameEncoding = (String) ConnectorUtils.
-                    lookupTemplateParamater(messageContext, FILE_NAME_ENCODING);
+                    lookupTemplateParamater(messageContext, Const.FILE_NAME_ENCODING);
             String validatedFileNameEncoding = Utils.validateEncoding(fileNameEncoding, log);
             boolean includeFileNames = Utils.
                     lookUpBooleanParam(messageContext, INCLUDE_FILE_NAMES, false);
@@ -110,7 +108,7 @@ public class UnzipFile extends AbstractConnector {
 
             //keep this null when not requested, so no element tree is built for large archives
             OMElement zipFileContentEle = includeFileNames
-                    ? Utils.createOMElement(ZIP_FILE_CONTENT_ELE, null) : null;
+                    ? Utils.createOMElement(Const.ZIP_FILE_CONTENT_ELEMENT, null) : null;
 
             executeDecompression(compressedFile, folderPathToExtract, fsManager, fso, validatedFileNameEncoding,
                     zipFileContentEle);

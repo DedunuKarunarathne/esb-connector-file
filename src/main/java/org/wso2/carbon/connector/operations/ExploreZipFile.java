@@ -49,8 +49,6 @@ import java.io.InputStream;
 public class ExploreZipFile extends AbstractConnector {
 
     private static final String ZIP_FILE_PATH = "zipFilePath";
-    private static final String ZIP_FILE_CONTENT_ELE = "zipFileContent";
-    private static final String FILE_NAME_ENCODING = "fileNameEncoding";
     private static final String OPERATION_NAME = "exploreZipFile";
     private static final String ERROR_MESSAGE = "Error while performing file:exploreZipFile for file ";
 
@@ -73,7 +71,7 @@ public class ExploreZipFile extends AbstractConnector {
             filePath = (String) ConnectorUtils.
                     lookupTemplateParamater(messageContext, ZIP_FILE_PATH);
             String fileNameEncoding = (String) ConnectorUtils.
-                    lookupTemplateParamater(messageContext, FILE_NAME_ENCODING);
+                    lookupTemplateParamater(messageContext, Const.FILE_NAME_ENCODING);
             String validatedFileNameEncoding = Utils.validateEncoding(fileNameEncoding, log);
 
             if (StringUtils.isEmpty(filePath)) {
@@ -94,7 +92,7 @@ public class ExploreZipFile extends AbstractConnector {
             }
 
             OMElement zipFileContentEle = Utils.
-                    createOMElement(ZIP_FILE_CONTENT_ELE, null);
+                    createOMElement(Const.ZIP_FILE_CONTENT_ELEMENT, null);
 
             // open the zip file
             InputStream input = zipFile.getContent().getInputStream();
